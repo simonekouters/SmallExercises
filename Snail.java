@@ -1,33 +1,61 @@
-public class Snail1 {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class Snail {
     public static void main(String[] args) {
-        int[][] array = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-        int[][] snail = new int[array.length][array.length];
-        
-        int number = 1;
-        int move = 1;
-        int row = 0;
-        int column = -1; 
-        int length = snail.length;
-        
-        for (int i = 0; i < snail.length; i++) {
-            for (int j = 0; j < length; j++) {
-                column += move;
-                snail[row][column] = number++;
+        // int[][] array = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        int[][] array = {{1, 2, 3, 4}, {5, 6, 7, 8}, {1, 2, 3, 4}, {5, 6, 7, 8}};
+        int length = array.length;
+        int[][] snail = new int[length][length];
+
+        List<Integer> numbers = new ArrayList<>();
+
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                numbers.add(array[i][j]);
             }
-            length--;
-            for (int j = 0; j < length; j++) {
-                row += move;
-                snail[row][column] = number++;
-            }
-            move *= -1;
         }
-        
-        
-        for (int i = 0; i < snail.length; i++) {
-            for (int j = 0; j < snail[i].length; j++) {
-                System.out.print(snail[i][j] + " ");
+
+        int num = 0;
+        int top = 0;
+        int bottom = length - 1;
+        int left = 0;
+        int right = length - 1;
+
+        for (int i = 0; i < length; i++) {
+            for (int y = left; y <= right; y++) {
+                snail[top][y] = numbers.get(num);
+                num++;
             }
-            System.out.println();
+            top++;
+
+            for (int x = top; x <= bottom; x++) {
+                snail[x][right] = numbers.get(num);
+                num++;
+            }
+            right--;
+
+            for (int y = right; y >= left; y--) {
+                snail[bottom][y] = numbers.get(num);
+                num++;
+            }
+            bottom--;
+
+            for (int x = bottom; x >= top; x--) {
+                snail[x][left] = numbers.get(num);
+                num++;
+            }
+            left++;
+        }
+
+        for (int[] row : snail) {
+            System.out.println(Arrays.toString(row));
         }
     }
 }
+
+
+
+
+
